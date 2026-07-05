@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<meta name="referrer" content="no-referrer">
 <title>Bütgenbach Adventure — The Journey | 10–13 July</title>
 <script>document.documentElement.classList.add('js');</script>
 
@@ -102,6 +104,34 @@ body{
     padding:8px 16px;border-radius:30px;
     font-weight:600;font-size:.92rem;color:var(--teal-deep);
     box-shadow:var(--shadow-sm);
+}
+
+/* ---------- countdown ---------- */
+.countdown{margin-bottom:28px;}
+.cd-caption{
+    font-size:.82rem;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:#2f5a58;
+    margin-bottom:10px;
+}
+.cd-tiles{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+}
+.cd-tile{
+    background:rgba(255,255,255,.85);
+    border-radius:14px;
+    padding:10px 6px;
+    min-width:76px;
+    box-shadow:var(--shadow-sm);
+    display:flex;flex-direction:column;
+}
+.cd-num{
+    font-size:1.9rem;font-weight:800;line-height:1.1;
+    color:var(--teal-deep);
+    font-variant-numeric:tabular-nums;
+}
+.cd-lbl{
+    font-size:.7rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);
 }
 
 .cta{
@@ -373,6 +403,8 @@ footer{
     #marker{width:42px;height:42px;margin:-21px 0 0 -21px;font-size:1.2rem;}
     .chapter{padding:56px 0;}
     .chapter-box{padding:18px 26px;}
+    .cd-tile{min-width:64px;}
+    .cd-num{font-size:1.5rem;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -449,6 +481,16 @@ footer{
     <h1>🏕️ The Bütgenbach Journey</h1>
     <p class="sub">Four days, one winding trail. Scroll your way from the first
     beer on the terrace to the last boardwalk in the High Fens.</p>
+
+    <div class="countdown" id="countdown" hidden>
+        <p class="cd-caption">⏳ Check-in · Friday 10 July · 16:00</p>
+        <div class="cd-tiles" role="timer" aria-live="off">
+            <div class="cd-tile"><span class="cd-num" id="cd-d">0</span><span class="cd-lbl">days</span></div>
+            <div class="cd-tile"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">hours</span></div>
+            <div class="cd-tile"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">min</span></div>
+            <div class="cd-tile"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">sec</span></div>
+        </div>
+    </div>
 
     <div class="stats">
         <span>🗺️ 19 stops</span>
@@ -933,6 +975,40 @@ footer{
             try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
         });
     });
+
+    // countdown to check-in — Friday 10 July 2026, 16:00 local time
+    var cdWrap = document.getElementById('countdown');
+    var cdD = document.getElementById('cd-d'),
+        cdH = document.getElementById('cd-h'),
+        cdM = document.getElementById('cd-m'),
+        cdS = document.getElementById('cd-s');
+    var cdTarget = new Date(2026, 6, 10, 16, 0, 0).getTime();
+    var cdTimer = null;
+
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+    function tickCd(){
+        var diff = cdTarget - Date.now();
+        if(diff <= 0){
+            cdWrap.hidden = true;
+            if(cdTimer) clearInterval(cdTimer);
+            return;
+        }
+        var s = Math.floor(diff / 1000);
+        var d = Math.floor(s / 86400); s -= d * 86400;
+        var h = Math.floor(s / 3600);  s -= h * 3600;
+        var m = Math.floor(s / 60);    s -= m * 60;
+        cdD.textContent = d;
+        cdH.textContent = pad(h);
+        cdM.textContent = pad(m);
+        cdS.textContent = pad(s);
+        cdWrap.hidden = false;
+    }
+
+    tickCd();
+    if(cdTarget - Date.now() > 0){
+        cdTimer = setInterval(tickCd, 1000);
+    }
 
     window.addEventListener('load', build);
     build();
