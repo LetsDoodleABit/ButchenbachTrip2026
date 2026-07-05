@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bütgenbach Adventure — The Journey | 10–13 July</title>
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+:root{
+    --teal:#2c7a7b;
+    --teal-deep:#234e52;
+    --ink:#22383a;
+    --muted:#5f7776;
+    --paper:#f2f9f6;
+    --card:#ffffff;
+    --fri:#ef8f3f;
+    --sat:#2c9d96;
+    --sun:#d95757;
+    --mon:#5f9a44;
+    --shadow:0 14px 40px rgba(30,60,58,.10);
+    --shadow-sm:0 6px 18px rgba(30,60,58,.10);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+    font-family:Inter,"Segoe UI",Tahoma,sans-serif;
+    color:var(--ink);
+    background:
+        linear-gradient(180deg,#e7f5ef 0%,#eef6f4 30%,#eef3f7 60%,#f3f0ea 100%);
+    line-height:1.6;
+    overflow-x:hidden;
+}
+
+/* ---------- top progress bar ---------- */
+#bar{
+    position:fixed;top:0;left:0;height:5px;width:0%;
+    background:linear-gradient(90deg,var(--fri),var(--sat),var(--sun),var(--mon));
+    z-index:50;border-radius:0 4px 4px 0;
+    transition:width .15s linear;
+}
+
+/* ---------- hero ---------- */
+.hero{
+    position:relative;
+    min-height:94vh;
+    min-height:94svh;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    text-align:center;
+    padding:40px 20px 120px;
+    background:linear-gradient(180deg,#8fd3d0 0%,#bfe6dd 45%,#e7f5ef 100%);
+    overflow:hidden;
+}
+
+.hero-scene{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    pointer-events:none;
+}
+
+.hero-inner{
+    position:relative;z-index:2;
+    max-width:760px;
+}
+
+.hero .kicker{
+    display:inline-block;
+    background:rgba(255,255,255,.75);
+    color:var(--teal-deep);
+    font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.8rem;
+    padding:8px 18px;border-radius:30px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow-sm);
+}
+
+.hero h1{
+    font-size:clamp(2.4rem,6vw,4rem);
+    line-height:1.1;
+    color:var(--teal-deep);
+    margin-bottom:14px;
+    text-shadow:0 2px 0 rgba(255,255,255,.5);
+}
+
+.hero p.sub{
+    font-size:1.15rem;
+    color:#2f5a58;
+    max-width:520px;margin:0 auto 26px;
+}
+
+.hero .stats{
+    display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+    margin-bottom:30px;
+}
+
+.hero .stats span{
+    background:rgba(255,255,255,.8);
+    padding:8px 16px;border-radius:30px;
+    font-weight:600;font-size:.92rem;color:var(--teal-deep);
+    box-shadow:var(--shadow-sm);
+}
+
+.cta{
+    display:inline-block;
+    background:var(--teal);color:#fff;
+    padding:15px 34px;border-radius:40px;
+    font-weight:700;font-size:1.05rem;
+    text-decoration:none;
+    box-shadow:0 10px 26px rgba(44,122,123,.35);
+    transition:transform .2s, box-shadow .2s;
+}
+.cta:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(44,122,123,.4);}
+
+:focus-visible{outline:3px solid var(--teal-deep);outline-offset:3px;}
+#journey:focus{outline:none;}
+
+.scroll-cue{
+    position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+    z-index:2;color:var(--teal-deep);font-size:1.6rem;opacity:.7;
+    animation:bob 1.8s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,10px)}}
+
+.cloud{animation:drift 70s linear infinite;}
+.cloud.c2{animation-duration:95s;animation-delay:-30s;}
+@keyframes drift{from{transform:translateX(-15%)}to{transform:translateX(115%)}}
+
+/* ---------- journey ---------- */
+.journey-wrap{
+    max-width:1040px;margin:0 auto;
+    padding:0 18px;
+}
+
+#journey{
+    position:relative;
+    padding:80px 0 40px;
+}
+
+#trailSvg{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    z-index:0;pointer-events:none;
+    overflow:visible;
+}
+
+#trailBase{
+    fill:none;stroke:#b9cfc9;stroke-width:4;
+    stroke-linecap:round;
+    stroke-dasharray:2 12;
+}
+
+#trailProg{
+    fill:none;stroke:url(#trailGrad);stroke-width:5;
+    stroke-linecap:round;
+}
+
+#marker{
+    position:absolute;top:0;left:0;z-index:3;
+    width:52px;height:52px;margin:-26px 0 0 -26px;
+    background:#fff;border-radius:50%;
+    border:4px solid var(--fri);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;
+    box-shadow:0 8px 22px rgba(30,60,58,.25);
+    transition:border-color .4s;
+    will-change:transform;
+}
+
+/* chapter badges */
+.chapter{
+    position:relative;z-index:1;
+    display:flex;justify-content:center;
+    padding:70px 0;
+}
+
+.chapter-badge{
+    /* measured for the trail — keep untransformed */
+}
+
+.chapter-box{
+    background:var(--card);
+    border-radius:22px;
+    padding:22px 40px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    border-top:6px solid var(--dc,var(--teal));
+    transition:opacity .6s ease, transform .6s ease;
+}
+.js .chapter-box{opacity:0;transform:translateY(26px) scale(.96);}
+.js .in .chapter-box{opacity:1;transform:none;}
+
+.chapter-box .day-tag{
+    display:inline-block;
+    background:color-mix(in srgb, var(--dc,var(--teal)) 16%, white);
+    color:color-mix(in srgb, var(--dc,var(--teal)) 55%, #223b38);
+    font-size:.78rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;
+    padding:4px 14px;border-radius:20px;margin-bottom:8px;
+}
+
+.chapter-box h2{
+    font-size:1.6rem;color:var(--ink);
+}
+
+.chapter-box p{color:var(--muted);font-size:.95rem;}
+
+/* stops */
+.stop{
+    position:relative;z-index:1;
+    display:flex;align-items:center;
+    gap:30px;
+    padding:44px 4%;
+}
+.stop[data-side="right"]{flex-direction:row-reverse;}
+
+.node{
+    flex:0 0 auto;
+    width:66px;height:66px;
+}
+.node-ic{
+    width:66px;height:66px;
+    background:#fff;
+    border:4px solid #c4d8d2;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;
+    box-shadow:var(--shadow-sm);
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1), border-color .35s, background .35s;
+}
+.stop.reached .node-ic{
+    border-color:var(--dc,var(--teal));
+    transform:scale(1.12);
+}
+
+.card{
+    background:var(--card);
+    border-radius:18px;
+    padding:24px 26px;
+    max-width:480px;
+    box-shadow:var(--shadow);
+    border-left:5px solid var(--dc,var(--teal));
+    transition:opacity .6s ease, transform .6s ease;
+}
+.stop[data-side="right"] .card{border-left:none;border-right:5px solid var(--dc,var(--teal));}
+.js .card{opacity:0;transform:translateY(26px);}
+.js .card.in{opacity:1;transform:none;}
+
+.card .when{
+    display:inline-block;
+    background:color-mix(in srgb, var(--dc,var(--teal)) 14%, white);
+    color:color-mix(in srgb, var(--dc,var(--teal)) 55%, #223b38);
+    font-size:.78rem;font-weight:700;letter-spacing:.06em;
+    padding:3px 12px;border-radius:16px;
+    margin-bottom:8px;text-transform:uppercase;
+}
+
+.card h3{font-size:1.2rem;margin-bottom:6px;color:var(--ink);}
+.card p{color:#465e5c;font-size:.98rem;}
+
+.chips{
+    display:flex;flex-wrap:wrap;gap:8px;
+    margin-top:12px;list-style:none;
+}
+.chips li{
+    background:#eef6f3;
+    color:var(--teal-deep);
+    font-size:.85rem;font-weight:600;
+    padding:5px 12px;border-radius:16px;
+}
+
+/* finale */
+.finale{
+    position:relative;z-index:1;
+    display:flex;flex-direction:column;align-items:center;
+    padding:80px 0 30px;text-align:center;
+}
+.finale .node{width:96px;height:96px;}
+.finale .node-ic{
+    width:96px;height:96px;font-size:2.6rem;
+    border-width:5px;
+}
+.finale.reached .node-ic{
+    border-color:#e0b13e;
+    background:#fff8e6;
+    transform:scale(1.1) rotate(-6deg);
+}
+.finale h2{margin-top:20px;font-size:1.8rem;color:var(--teal-deep);}
+.finale p{color:var(--muted);}
+
+/* ---------- sections after the trail ---------- */
+.section{
+    max-width:1040px;margin:0 auto;
+    padding:60px 20px 20px;
+}
+.section > h2{
+    font-size:1.9rem;color:var(--teal-deep);
+    text-align:center;margin-bottom:8px;
+}
+.section > p.lead{
+    text-align:center;color:var(--muted);margin-bottom:34px;
+}
+
+.food-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+.food-card{
+    background:var(--card);border-radius:18px;
+    padding:22px;box-shadow:var(--shadow);
+    border-top:6px solid var(--dc,var(--teal));
+}
+.food-card h3{color:color-mix(in srgb, var(--dc,var(--teal)) 55%, #223b38);margin-bottom:10px;}
+.food-card ul{list-style:none;}
+.food-card li{padding:3px 0;color:#465e5c;}
+
+.checklist{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+}
+.checklist button{
+    background:var(--card);
+    border:2px solid transparent;
+    border-radius:14px;
+    padding:15px 16px;
+    box-shadow:var(--shadow-sm);
+    font-size:.98rem;font-family:inherit;color:var(--ink);
+    cursor:pointer;text-align:left;
+    display:flex;align-items:center;gap:10px;
+    transition:.2s;
+}
+.checklist button .tick{
+    width:22px;height:22px;flex:0 0 auto;
+    border:2px solid #b8cfc9;border-radius:7px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.8rem;color:#fff;
+}
+.checklist button.done{
+    border-color:var(--teal);
+    background:#eafaf4;
+}
+.checklist button.done .tick{background:var(--teal);border-color:var(--teal);}
+.checklist button.done .lbl{text-decoration:line-through;opacity:.65;}
+
+footer{
+    text-align:center;
+    padding:60px 20px 50px;
+    color:var(--muted);
+}
+
+/* ---------- mobile ---------- */
+@media(max-width:719px){
+    .stop, .stop[data-side="right"]{
+        flex-direction:row;
+        gap:16px;
+        padding:34px 6px;
+    }
+    .stop[data-side="right"] .node{margin-left:26px;}
+    .stop[data-side="right"] .card{
+        border-right:none;
+        border-left:5px solid var(--dc,var(--teal));
+    }
+    .card{max-width:none;flex:1;padding:20px 18px;}
+    .node,.node-ic{width:54px;height:54px;}
+    .node-ic{font-size:1.4rem;}
+    .finale .node,.finale .node-ic{width:80px;height:80px;}
+    .finale .node-ic{font-size:2.1rem;}
+    #marker{width:42px;height:42px;margin:-21px 0 0 -21px;font-size:1.2rem;}
+    .chapter{padding:56px 0;}
+    .chapter-box{padding:18px 26px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .card,.chapter-box{opacity:1 !important;transform:none !important;transition:none;}
+    .scroll-cue,.cloud{animation:none;}
+    #marker,.node-ic{transition:none;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="bar"></div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+
+<svg class="hero-scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <!-- sun -->
+    <circle cx="930" cy="130" r="58" fill="#ffe9a8"/>
+    <circle cx="930" cy="130" r="90" fill="#ffe9a8" opacity=".25"/>
+
+    <!-- clouds -->
+    <g class="cloud" opacity=".85" fill="#ffffff">
+        <ellipse cx="180" cy="120" rx="70" ry="24"/>
+        <ellipse cx="230" cy="105" rx="50" ry="20"/>
+    </g>
+    <g class="cloud c2" opacity=".7" fill="#ffffff">
+        <ellipse cx="80" cy="210" rx="60" ry="20"/>
+        <ellipse cx="125" cy="198" rx="42" ry="16"/>
+    </g>
+
+    <!-- mountains -->
+    <path d="M-20 480 L180 260 L340 430 L520 220 L700 460 L880 280 L1080 470 L1220 360 L1220 700 L-20 700 Z"
+          fill="#a9cdc9" opacity=".7"/>
+    <path d="M-20 540 L140 380 L330 520 L560 340 L780 540 L960 400 L1220 540 L1220 700 L-20 700 Z"
+          fill="#7fb3ab" opacity=".85"/>
+
+    <!-- lake -->
+    <ellipse cx="600" cy="700" rx="760" ry="170" fill="#5aa9a3"/>
+    <ellipse cx="600" cy="700" rx="760" ry="170" fill="url(#lakeShine)"/>
+    <defs>
+        <linearGradient id="lakeShine" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8fd3cd"/>
+            <stop offset="1" stop-color="#4e968f"/>
+        </linearGradient>
+    </defs>
+
+    <!-- foreground ridge -->
+    <path d="M-20 620 L200 540 L430 610 L640 545 L900 615 L1100 555 L1220 600 L1220 700 L-20 700 Z"
+          fill="#3f7a6e"/>
+
+    <!-- pines -->
+    <g fill="#2f5d4f">
+        <path d="M120 560 l26 46 h-52 Z"/>
+        <path d="M120 585 l32 52 h-64 Z"/>
+        <path d="M170 575 l22 40 h-44 Z"/>
+        <path d="M1010 570 l26 46 h-52 Z"/>
+        <path d="M1010 595 l32 52 h-64 Z"/>
+        <path d="M1062 585 l22 40 h-44 Z"/>
+    </g>
+
+    <!-- tent -->
+    <g>
+        <path d="M560 640 l46 -64 46 64 Z" fill="#ef8f3f"/>
+        <path d="M606 576 l46 64 h-24 l-22 -34 Z" fill="#d97a2e"/>
+        <path d="M596 640 l10 -22 10 22 Z" fill="#8a4a17"/>
+    </g>
+</svg>
+
+<div class="hero-inner">
+    <span class="kicker">10 – 13 July • Ardennes, Belgium</span>
+    <h1>🏕️ The Bütgenbach Journey</h1>
+    <p class="sub">Four days, one winding trail. Scroll your way from the first
+    beer on the terrace to the last boardwalk in the High Fens.</p>
+
+    <div class="stats">
+        <span>🗺️ 19 stops</span>
+        <span>🔥 3 BBQs</span>
+        <span>🥾 20–30 km on foot</span>
+        <span>🏆 1 trophy</span>
+    </div>
+
+    <a class="cta" href="#journey">Start the journey ↓</a>
+</div>
+
+<div class="scroll-cue" aria-hidden="true">▾</div>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<main>
+<div class="journey-wrap">
+<div id="journey" tabindex="-1">
+
+<svg id="trailSvg" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+        <linearGradient id="trailGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0"   stop-color="#ef8f3f"/>
+            <stop offset=".33" stop-color="#2c9d96"/>
+            <stop offset=".66" stop-color="#d95757"/>
+            <stop offset="1"   stop-color="#5f9a44"/>
+        </linearGradient>
+    </defs>
+    <path id="trailBase" d=""/>
+    <path id="trailProg" d=""/>
+</svg>
+
+<div id="marker" aria-hidden="true">🚗</div>
+
+<!-- ---------- FRIDAY ---------- -->
+<section class="chapter" style="--dc:var(--fri)">
+    <div class="chapter-badge" data-node data-marker="🚗">
+        <div class="chapter-box">
+            <span class="day-tag">Friday · Day 1</span>
+            <h2>Arrival &amp; BBQ Night</h2>
+            <p>The journey begins.</p>
+        </div>
+    </div>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--fri)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏡</span></div>
+    <article class="card">
+        <span class="when">Late afternoon</span>
+        <h3>Arrive in Bütgenbach</h3>
+        <p>Unpack, claim your bed, and enjoy the first drinks together on the terrace.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--fri)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🛒</span></div>
+    <article class="card">
+        <span class="when">Early evening</span>
+        <h3>Grocery Run</h3>
+        <p>Stock up for the whole weekend: meat, vegetables, drinks, snacks and breakfast supplies.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--fri)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🔥</span></div>
+    <article class="card">
+        <span class="when">Dinner</span>
+        <h3>BBQ Night #1</h3>
+        <p>Fire up the grill for the classics.</p>
+        <ul class="chips">
+            <li>🍔 Burgers</li><li>🌭 Sausages</li><li>🌽 Corn</li>
+            <li>🥗 Potato salad</li><li>🍺 Belgian beers</li>
+        </ul>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--fri)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🌙</span></div>
+    <article class="card">
+        <span class="when">Night</span>
+        <h3>Terrace Evening</h3>
+        <p>Games, music and cards under the stars — ease into the weekend.</p>
+    </article>
+</section>
+
+<!-- ---------- SATURDAY ---------- -->
+<section class="chapter" style="--dc:var(--sat)">
+    <div class="chapter-badge" data-node data-marker="🏖️">
+        <div class="chapter-box">
+            <span class="day-tag">Saturday · Day 2</span>
+            <h2>Hiking &amp; Lake Day</h2>
+            <p>Boots in the morning, beach in the afternoon.</p>
+        </div>
+    </div>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--sat)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🥐</span></div>
+    <article class="card">
+        <span class="when">09:00</span>
+        <h3>Big Breakfast</h3>
+        <p>Fuel up properly — it's a long, active day.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--sat)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🥾</span></div>
+    <article class="card">
+        <span class="when">10:00 – 13:00</span>
+        <h3>Morning Hike</h3>
+        <p>A scenic hike around Bütgenbach or into the High Fens — best done before the afternoon heat.</p>
+        <ul class="chips">
+            <li>📏 10–15 km</li><li>🌤️ Beat the heat</li>
+        </ul>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--sat)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🥪</span></div>
+    <article class="card">
+        <span class="when">13:00</span>
+        <h3>Picnic Lunch</h3>
+        <p>Fresh sandwiches, fruit, chips and cold drinks after the hike.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--sat)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏖️</span></div>
+    <article class="card">
+        <span class="when">14:00 – 18:00</span>
+        <h3>Lake Bütgenbach</h3>
+        <p>The whole afternoon at the lake — pick your sport or your sunbed.</p>
+        <ul class="chips">
+            <li>🏊 Swimming</li><li>🏄 SUP</li><li>🛶 Kayaking</li>
+            <li>🏐 Beach volleyball</li><li>😎 Relaxing on the beach</li>
+        </ul>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--sat)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🌮</span></div>
+    <article class="card">
+        <span class="when">Evening</span>
+        <h3>Taco BBQ Night</h3>
+        <p>Build-your-own tacos, straight off the grill.</p>
+        <ul class="chips">
+            <li>🍗 Grilled chicken</li><li>🥩 Steak</li><li>🧀 Halloumi</li>
+            <li>🥑 Guacamole</li><li>🍹 Margaritas</li>
+        </ul>
+    </article>
+</section>
+
+<!-- ---------- SUNDAY ---------- -->
+<section class="chapter" style="--dc:var(--sun)">
+    <div class="chapter-badge" data-node data-marker="🏎️">
+        <div class="chapter-box">
+            <span class="day-tag">Sunday · Day 3</span>
+            <h2>Karting &amp; Lake Adventure</h2>
+            <p>Race in the morning, unwind by the water.</p>
+        </div>
+    </div>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--sun)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🍳</span></div>
+    <article class="card">
+        <span class="when">Morning</span>
+        <h3>Breakfast</h3>
+        <p>Fuel up before race day.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--sun)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏎️</span></div>
+    <article class="card">
+        <span class="when">11:00</span>
+        <h3>Karting des Fagnes, Spa</h3>
+        <p>Full race format at the track.</p>
+        <ul class="chips">
+            <li>⏱️ Practice</li><li>🎯 Qualifying</li><li>🏆 Grand Prix Race</li>
+        </ul>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--sun)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🍔</span></div>
+    <article class="card">
+        <span class="when">Lunch</span>
+        <h3>Podium Debrief</h3>
+        <p>Lunch in Spa, or back in Bütgenbach.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--sun)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏖️</span></div>
+    <article class="card">
+        <span class="when">Afternoon</span>
+        <h3>Lake or Castle</h3>
+        <p>Return to Lake Bütgenbach for another swim — or visit Bütgenbach Castle if you'd like a cultural break before the BBQ.</p>
+        <ul class="chips">
+            <li>🏖️ Lake round two</li><li>🏰 Bütgenbach Castle</li>
+        </ul>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--sun)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🥩</span></div>
+    <article class="card">
+        <span class="when">Evening</span>
+        <h3>The Final BBQ Feast</h3>
+        <p>Going out big on the last night.</p>
+        <ul class="chips">
+            <li>🥩 Steaks</li><li>🍖 Ribs</li><li>🍢 Chicken skewers</li>
+            <li>🥖 Garlic bread</li><li>🥔 Loaded potatoes</li><li>🍑 Grilled peaches &amp; ice cream</li>
+        </ul>
+    </article>
+</section>
+
+<!-- ---------- MONDAY ---------- -->
+<section class="chapter" style="--dc:var(--mon)">
+    <div class="chapter-badge" data-node data-marker="🥾">
+        <div class="chapter-box">
+            <span class="day-tag">Monday · Day 4</span>
+            <h2>High Fens Hiking Day</h2>
+            <p>Boardwalks, a castle, and the road home.</p>
+        </div>
+    </div>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--mon)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🍳</span></div>
+    <article class="card">
+        <span class="when">Early morning</span>
+        <h3>Breakfast &amp; Pack Up</h3>
+        <p>Relaxed breakfast, pack the house, and load the cars.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--mon)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🥾</span></div>
+    <article class="card">
+        <span class="when">Morning</span>
+        <h3>High Fens Boardwalks</h3>
+        <p>Drive to the High Fens and hike 10–15 km across Belgium's famous boardwalks through the moorland.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--mon)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🍟</span></div>
+    <article class="card">
+        <span class="when">Lunch</span>
+        <h3>Belgian Café Stop</h3>
+        <p>Fries, croquettes and a local beer at a nearby café — earned.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="right" style="--dc:var(--mon)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏰</span></div>
+    <article class="card">
+        <span class="when">Afternoon</span>
+        <h3>Reinhardstein Castle</h3>
+        <p>Optional visit to Reinhardstein Castle before heading home.</p>
+    </article>
+</section>
+
+<section class="stop" data-side="left" style="--dc:var(--mon)">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🚗</span></div>
+    <article class="card">
+        <span class="when">Late afternoon</span>
+        <h3>Homeward Bound</h3>
+        <p>Drive home after an awesome long weekend in the Ardennes.</p>
+    </article>
+</section>
+
+<!-- ---------- FINALE ---------- -->
+<section class="finale" style="--dc:#e0b13e">
+    <div class="node" data-node aria-hidden="true"><span class="node-ic">🏆</span></div>
+    <h2>Journey Complete!</h2>
+    <p>19 stops, 3 BBQs, countless memories.</p>
+</section>
+
+</div><!-- /#journey -->
+</div><!-- /.journey-wrap -->
+
+<!-- ================= FOOD PLAN ================= -->
+<section class="section">
+<h2>🍖 Food Plan</h2>
+<p class="lead">The culinary route, day by day.</p>
+
+<div class="food-grid">
+    <div class="food-card" style="--dc:var(--fri)">
+        <h3>Friday</h3>
+        <ul>
+            <li>🍔 Burgers</li>
+            <li>🌭 Sausages</li>
+            <li>🌽 Corn on the cob</li>
+            <li>🍺 Belgian beer</li>
+        </ul>
+    </div>
+    <div class="food-card" style="--dc:var(--sat)">
+        <h3>Saturday</h3>
+        <ul>
+            <li>🥪 Picnic lunch</li>
+            <li>🌮 Taco BBQ</li>
+            <li>🍹 Cocktails</li>
+        </ul>
+    </div>
+    <div class="food-card" style="--dc:var(--sun)">
+        <h3>Sunday</h3>
+        <ul>
+            <li>🍔 Lunch in Spa</li>
+            <li>🥩 Premium BBQ feast</li>
+            <li>🍑 Grilled peach dessert</li>
+        </ul>
+    </div>
+    <div class="food-card" style="--dc:var(--mon)">
+        <h3>Monday</h3>
+        <ul>
+            <li>🍳 Breakfast</li>
+            <li>🍟 Belgian café lunch</li>
+        </ul>
+    </div>
+</div>
+</section>
+
+<!-- ================= PACKING ================= -->
+<section class="section">
+<h2>🎒 Packing List</h2>
+<p class="lead">Tap to check things off — your list is saved on this device.</p>
+
+<div class="checklist" id="checklist">
+    <button data-k="shoes"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🥾 Hiking shoes</span></button>
+    <button data-k="swim"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🩳 Swimwear</span></button>
+    <button data-k="sun"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🧴 Sunscreen</span></button>
+    <button data-k="rain"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🧥 Rain jacket</span></button>
+    <button data-k="cards"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🃏 Card games</span></button>
+    <button data-k="speaker"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🔊 Speaker</span></button>
+    <button data-k="cooler"><span class="tick" aria-hidden="true">✓</span><span class="lbl">🍺 Cooler</span></button>
+    <button data-k="camera"><span class="tick" aria-hidden="true">✓</span><span class="lbl">📸 Camera</span></button>
+</div>
+</section>
+</main>
+
+<footer>
+    Made for an unforgettable Ardennes weekend ❤️<br>
+    <small>v2 — the journey edition</small>
+</footer>
+
+<script>
+(function(){
+    var journey = document.getElementById('journey');
+    var svg     = document.getElementById('trailSvg');
+    var base    = document.getElementById('trailBase');
+    var prog    = document.getElementById('trailProg');
+    var marker  = document.getElementById('marker');
+    var bar     = document.getElementById('bar');
+
+    var nodeEls = Array.prototype.slice.call(journey.querySelectorAll('[data-node]'));
+    var pts = [], pathLen = 0, y0 = 0, yN = 1;
+
+    // day segments: index of chapter waypoints + their marker emoji/colour
+    var dayColors = ['#ef8f3f','#2c9d96','#d95757','#5f9a44'];
+    var chapters = [];
+
+    function build(){
+        var jr = journey.getBoundingClientRect();
+        var sx = window.scrollX || window.pageXOffset;
+        var sy = window.scrollY || window.pageYOffset;
+
+        pts = nodeEls.map(function(n){
+            var r = n.getBoundingClientRect();
+            return {
+                x: r.left + r.width/2  - jr.left,
+                y: r.top  + r.height/2 - jr.top,
+                el: n.closest('.stop, .chapter, .finale'),
+                marker: n.getAttribute('data-marker') || null
+            };
+        });
+
+        chapters = [];
+        pts.forEach(function(p,i){ if(p.marker) chapters.push(i); });
+
+        var d = 'M ' + pts[0].x + ' ' + pts[0].y;
+        for(var i=1;i<pts.length;i++){
+            var a = pts[i-1], b = pts[i];
+            var dy = (b.y - a.y)/2;
+            d += ' C ' + a.x + ' ' + (a.y+dy) + ', ' + b.x + ' ' + (b.y-dy) + ', ' + b.x + ' ' + b.y;
+        }
+
+        svg.setAttribute('viewBox','0 0 ' + journey.clientWidth + ' ' + journey.clientHeight);
+        base.setAttribute('d', d);
+        prog.setAttribute('d', d);
+
+        pathLen = prog.getTotalLength();
+        prog.style.strokeDasharray = pathLen;
+
+        y0 = pts[0].y;
+        yN = pts[pts.length-1].y;
+
+        update();
+    }
+
+    function update(){
+        if(!pathLen) return;
+
+        var jr = journey.getBoundingClientRect();
+        var focus = window.innerHeight * 0.55;          // "you are here" line
+        var focusY = focus - jr.top;                    // in journey coords
+
+        var t = (focusY - y0) / (yN - y0);
+        t = Math.max(0, Math.min(1, t));
+
+        var len = t * pathLen;
+        prog.style.strokeDashoffset = pathLen - len;
+
+        var p = prog.getPointAtLength(len);
+        marker.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)';
+
+        bar.style.width = (t*100).toFixed(2) + '%';
+
+        // reached stops
+        pts.forEach(function(pt){
+            if(pt.el){
+                if(pt.y <= focusY + 8) pt.el.classList.add('reached');
+                else pt.el.classList.remove('reached');
+            }
+        });
+
+        // marker persona per day
+        var day = 0;
+        for(var i=0;i<chapters.length;i++){
+            if(pts[chapters[i]].y <= focusY + 8) day = i;
+        }
+        var emoji = pts[chapters[day]] ? pts[chapters[day]].marker : '🚗';
+        if(marker.textContent !== emoji) marker.textContent = emoji;
+        marker.style.borderColor = dayColors[day] || dayColors[0];
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+        if(!ticking){
+            ticking = true;
+            requestAnimationFrame(function(){ update(); ticking = false; });
+        }
+    }, {passive:true});
+
+    var rT;
+    window.addEventListener('resize', function(){
+        clearTimeout(rT);
+        rT = setTimeout(build, 150);
+    });
+
+    // reveal-on-scroll for cards + chapter boxes
+    var revealables = document.querySelectorAll('.card, .chapter-badge');
+    if('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if(e.isIntersecting){
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, {threshold:.2});
+        revealables.forEach(function(c){ io.observe(c); });
+    }else{
+        revealables.forEach(function(c){ c.classList.add('in'); });
+    }
+
+    // packing checklist with localStorage
+    var KEY = 'butg-pack-v2';
+    var saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){}
+    document.querySelectorAll('#checklist button').forEach(function(btn){
+        var k = btn.getAttribute('data-k');
+        if(saved[k]) btn.classList.add('done');
+        btn.setAttribute('aria-pressed', btn.classList.contains('done') ? 'true' : 'false');
+        btn.addEventListener('click', function(){
+            btn.classList.toggle('done');
+            var done = btn.classList.contains('done');
+            btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+            saved[k] = done;
+            try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
+        });
+    });
+
+    window.addEventListener('load', build);
+    build();
+})();
+</script>
+
+</body>
+</html>
